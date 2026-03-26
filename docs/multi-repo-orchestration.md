@@ -6,9 +6,9 @@
 
 > **For single-repo AI coding practices, start with the [README](../README.md).** This document covers coordination across multiple repositories.
 
-> **This is a conceptual guide, not a specification.** Everything here is a recommendation, not a rule. Sections marked `[OPEN QUESTION]` are explicitly unsettled. The PoC (§8) has not yet been executed. Feedback welcome.
+> **This is a conceptual guide, not a specification.** Everything here is a recommendation, not a rule. Sections marked `[OPEN QUESTION]` are explicitly unsettled. Feedback welcome.
 
-> **Start here:** Read §1 for the model, §5 for the lifecycle, §8 for the PoC. Everything else is reference.
+> **Start here:** Read §1 for the model, §5 for the lifecycle, §9 for transport options. Everything else is reference.
 
 ---
 
@@ -31,7 +31,7 @@
 
 This guide describes a **multi-agent architecture** for coordinating AI coding work across multiple git repositories. It builds on the [Progressive Disclosure Documentation Standard](progressive-disclosure-standard.md), which makes individual repos self-describing. This document addresses the next layer: how agents collaborate when a feature spans multiple codebases.
 
-The core idea: a coordinating agent specs and plans cross-repo work, repo-level agents implement within their own boundaries, and structured review gates keep humans in the loop. [Test Driven Development](../README.md#4-workflow) anchors quality at the single-repo level; this document adds the multi-repo coordination layer on top.
+The core idea: a coordinating agent specs and plans cross-repo work, repo-level agents implement within their own boundaries, and structured review gates keep humans in the loop. Test-driven development anchors quality at the single-repo level; this document adds the multi-repo coordination layer on top.
 
 ### Agent Tiers
 
@@ -316,7 +316,7 @@ Cross-repo review applies when a change in one repo alters a shared interface: a
 
 ### Test Driven Development
 
-Repo Agents follow [Test Driven Development](../README.md#4-workflow) as described in the README — write the test first, verify it fails, implement, verify it passes.
+Repo Agents follow test-driven development — write the test first, verify it fails, implement, verify it passes.
 
 ### Test Layers
 
@@ -330,7 +330,7 @@ Repo Agents follow [Test Driven Development](../README.md#4-workflow) as describ
 
 ### The Completion Rule
 
-The [completion rule](../README.md#4-workflow) applies at every level: a Repo Agent should not report a task as complete if any test is failing or skipped. The System Agent should not advance the epic to the next phase while any repo has failing tests.
+The completion rule applies at every level: a Repo Agent should not report a task as complete if any test is failing or skipped. The System Agent should not advance the epic to the next phase while any repo has failing tests.
 
 ### Contract Testing
 
@@ -365,7 +365,7 @@ Both repos have Progressive Disclosure docs pre-generated per the PD standard. S
 1. **Discovery** — System Agent loads the System Card, identifies both repos as affected, reads their L0 + relevant L1 files.
 2. **Planning** — System Agent produces an Epic Plan: `demo-api` provides the endpoint (no dependencies), `demo-sdk` consumes it (depends on API contract).
 3. **Interface agreement** — Both Repo Agents review and agree on the contract (response shape, error codes). Human reviews. See the contract example in §5.
-4. **Implementation** — Both Repo Agents implement in parallel using [TDD](../README.md#4-workflow). The API agent writes endpoint tests first, then the endpoint. The SDK agent writes method tests first, then the method.
+4. **Implementation** — Both Repo Agents implement in parallel using TDD. The API agent writes endpoint tests first, then the endpoint. The SDK agent writes method tests first, then the method.
 5. **Cross-repo review** — The SDK Repo Agent reviews the API's response shape from the consumer perspective.
 6. **Integration** — Contract tests run in both repos. Integration test verifies the SDK can call the running API.
 7. **Validation** — If a frontend repo existed, the E2E Validator would test the user flow through the browser.
@@ -525,7 +525,13 @@ For this orchestration guide's purposes — a System Agent coordinating Repo Age
 
 **For multi-agent orchestration out of the box:** `claude-code-by-agents` is the only project with built-in task decomposition and dependency management — closest to the System Agent concept in this guide.
 
-**The gap:** No existing project implements the full epic lifecycle described in §5 — discovery, planning, interface agreement, parallel implementation, integration testing, and E2E validation with human review gates. The transport layer exists; the orchestration logic on top of it does not.
+**What's left to build:** Not much. The epic lifecycle in §5 is coordination logic — prompting agents with the right context and instructions, making HTTP calls between them, and running shell commands for tests. The System Agent is just a Claude Code session (or any AI agent session) with a prompt that tells it how to call the Repo Agents' HTTP endpoints, what to ask them, and when to pause for human review. Every phase breaks down to:
+
+- **Prompting** — give an agent context and instructions (discovery, planning, interface agreement)
+- **HTTP calls** — send a task to a Repo Agent, get a result back (implementation, cross-repo review)
+- **Shell commands** — run tests (integration, E2E validation)
+
+The transport layer above handles the HTTP calls. The epic lifecycle is the System Agent's prompt. No special orchestration framework needs to be built — you write the System Agent prompt, point it at the transport layer, and run it.
 
 ### Agent Lifecycle
 
@@ -551,4 +557,4 @@ These are explicitly unsettled. We include them to frame discussion, not to pres
 
 **Contract versioning** `[OPEN QUESTION]` — Can a contract change mid-epic? We lean toward amendments with re-approval for the PoC, moving toward semantic versioning for production use.
 
-**Authentication and authorization** `[OPEN QUESTION]` — In the HTTP transport model, how do agents authenticate to each other? For same-team PoC, localhost or VPN may suffice. For production, mutual TLS or API keys.
+**Authentication and authorization** `[OPEN QUESTION]` — In the HTTP transport model, how do agents authenticate to each other? Existing projects offer options: `claude-a2a` supports master key + JWT with scopes, `agentapi` restricts to allowed hosts. For a same-team PoC, localhost or VPN may suffice. For production, mutual TLS or scoped tokens.
