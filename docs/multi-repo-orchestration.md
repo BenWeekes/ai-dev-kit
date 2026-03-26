@@ -22,7 +22,8 @@
 - [6. Cross-Repo Code Review](#6-cross-repo-code-review)
 - [7. Testing and Completion](#7-testing-and-completion)
 - [8. Proof of Concept](#8-proof-of-concept)
-- [9. Open Questions](#9-open-questions)
+- [9. Agent Transport Layer](#9-agent-transport-layer)
+- [10. Open Questions](#10-open-questions)
 
 ---
 
@@ -380,13 +381,99 @@ Both repos have Progressive Disclosure docs pre-generated per the PD standard. S
 
 ---
 
-## 9. Open Questions
+## 9. Agent Transport Layer
 
-These are explicitly unsettled. We include them to frame discussion, not to prescribe answers. Questions marked **(blocks PoC)** should be resolved before running the proof of concept.
+> **This is the key infrastructure requirement.** Sections 3-7 describe coordination logic — what agents say to each other. This section addresses the harder problem: how they say it. Without a transport layer, the architecture above is a design, not a system.
 
-**Communication transport** `[OPEN QUESTION]` **(blocks PoC)** — How do agents exchange task specs, status updates, and results? File-based (auditable), sub-processes (simple), or message queues (scalable). We lean toward file-based for the PoC.
+### The Problem
 
-**Agent state and resumability** `[OPEN QUESTION]` **(blocks PoC)** — If a System Agent session times out mid-epic, how does it resume? File-based state (plans, status reports, contracts) enables any session to pick up where the previous one left off.
+The System Diagram (§3) draws arrows labeled "Task Spec" between agents, but there is no built-in mechanism for those arrows. AI coding agents today are interactive sessions — a human types, the agent responds. They don't listen for incoming requests or push results to other agents.
+
+For agents on the **same machine** (e.g., multiple Claude Code sessions on one laptop), file-based communication is possible. For agents on **different machines** (different developers, CI runners, cloud environments), you need a network transport: something that can deliver a request to an agent and return its response.
+
+### Transport Options
+
+| Option | How It Works | Pros | Cons | Best For |
+| --- | --- | --- | --- | --- |
+| **File-based** | Agents read/write to a shared directory or git repo | Auditable, no infra, works offline | Requires shared filesystem, polling-based, slow | Same-machine PoC |
+| **HTTP request/response** | Each agent exposes an HTTP endpoint; System Agent sends requests and receives responses | Simple protocol, standard tooling, works across machines | Requires a server process per agent, port management, auth | Multi-machine coordination |
+| **Message queue** | Agents publish/subscribe via a broker (Redis, NATS, SQS) | Scalable, decoupled, async | Infrastructure overhead, message ordering complexity | Production at scale |
+| **Git-as-transport** | Agents communicate via commits to a coordination repo | Auditable, works across machines, uses existing tooling | Slow (commit/push/pull cycle), merge conflicts | Audit-heavy environments |
+
+### HTTP Transport (Recommended for PoC)
+
+HTTP request/response is the simplest transport that works across machines. Each agent needs:
+
+1. **A listening endpoint** — a lightweight HTTP server that accepts task requests
+2. **A request/response protocol** — structured JSON messages for task specs, status, and results
+3. **Agent lifecycle management** — something to start agents, keep them running, and handle timeouts
+
+#### Message Protocol (Sketch)
+
+```
+POST /task
+Content-Type: application/json
+
+{
+  "task_id": "epic-001-task-003",
+  "type": "implement",
+  "spec": "Add GET /v1/users/:id endpoint returning { id, name, email }",
+  "contract": "...",
+  "repo": "demo-api",
+  "timeout_seconds": 300
+}
+```
+
+```
+200 OK
+Content-Type: application/json
+
+{
+  "task_id": "epic-001-task-003",
+  "status": "completed",
+  "branch": "feat/user-profile",
+  "pr_url": "https://github.com/org/demo-api/pull/42",
+  "test_results": { "passed": 12, "failed": 0, "skipped": 0 },
+  "notes": "Endpoint implemented with input validation. See PR for details."
+}
+```
+
+#### What Needs Building
+
+| Component | What It Does | Exists Today? |
+| --- | --- | --- |
+| Agent HTTP wrapper | Wraps a Claude Code session behind an HTTP endpoint | No — needs development |
+| Task dispatcher | System Agent sends HTTP requests to Repo Agent endpoints | Straightforward with any HTTP client |
+| Agent registry | Maps repo names to agent endpoint URLs | Simple config file or service discovery |
+| Health check | Verifies agents are running before dispatching | Standard HTTP health endpoint |
+| Timeout/retry | Handles agent crashes, network failures, long-running tasks | Standard HTTP client patterns |
+
+### Agent Lifecycle
+
+The document previously assumed agents exist and are ready to receive work. In practice:
+
+1. **Who starts agents?** A human, a CI pipeline, or a launcher script. Each Repo Agent needs to be started with access to its repo and its listening port configured.
+2. **Who keeps them running?** For a PoC, a simple process that stays alive while work is in progress. For production, a process manager or container orchestrator.
+3. **What happens on failure?** File-based state (plans, contracts, partial results in git branches) enables any new agent session to resume from the last checkpoint. The System Agent should detect unresponsive Repo Agents and either retry or escalate to a human.
+
+### PoC Feasibility
+
+The PoC in §8 is feasible today **only in the same-machine case** — one human running multiple agent sessions on the same laptop, using file-based transport or manual copy-paste coordination.
+
+For **multi-machine PoC**, the HTTP transport above needs to be built first. The minimum viable version is:
+- A simple HTTP server that wraps an agent session
+- A System Agent that can POST task specs and poll for results
+- File-based state for resumability
+
+This is a small but real engineering effort — not a configuration change.
+
+---
+
+## 10. Open Questions
+
+These are explicitly unsettled. We include them to frame discussion, not to prescribe answers.
+
+**Agent state and resumability** `[OPEN QUESTION]` — If a System Agent session times out mid-epic, how does it resume? File-based state (plans, status reports, contracts) enables any session to pick up where the previous one left off.
 
 **Conflict resolution** `[OPEN QUESTION]` — When two Repo Agents produce conflicting implementations (e.g., API returns `userName` but SDK expects `name`), what resolves it? Contract tests catch most mismatches; cross-repo review catches subtler issues; human escalation handles the rest.
 
@@ -395,3 +482,5 @@ These are explicitly unsettled. We include them to frame discussion, not to pres
 **Scaling to many repos** `[OPEN QUESTION]` — At 50+ repos, a flat System Card may need to become hierarchical — a "System of Systems" with sub-system cards.
 
 **Contract versioning** `[OPEN QUESTION]` — Can a contract change mid-epic? We lean toward amendments with re-approval for the PoC, moving toward semantic versioning for production use.
+
+**Authentication and authorization** `[OPEN QUESTION]` — In the HTTP transport model, how do agents authenticate to each other? For same-team PoC, localhost or VPN may suffice. For production, mutual TLS or API keys.
