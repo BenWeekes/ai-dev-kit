@@ -103,7 +103,10 @@ agent tiers, epic lifecycle, and cross-repo review patterns.
 
 ## Using with Superpowers
 
-ai-dev-kit and Superpowers cover different concerns with no overlap:
+[Superpowers](https://github.com/obra/superpowers) handles the development
+pipeline — spec, plan, build, test, review. ai-dev-kit ensures consistent git
+usage (clean commits, no AI tool advertising) and maintains useful progressive
+disclosure documentation. No overlap:
 
 | Concern         | ai-dev-kit             | Superpowers          |
 | --------------- | ---------------------- | -------------------- |
