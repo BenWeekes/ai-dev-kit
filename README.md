@@ -33,21 +33,21 @@ conventions are always active. Skills load on demand when you invoke them — sa
 **Claude Code**
 
 ```
-/plugin marketplace add BenWeekes/ai-dev-kit
+/plugin marketplace add AgoraIO-Community/ai-dev-kit
 /plugin install ai-dev-kit@ai-dev-kit
 ```
 
 **Cursor**
 
 ```bash
-git clone https://github.com/BenWeekes/ai-dev-kit.git ~/ai-dev-kit
+git clone https://github.com/AgoraIO-Community/ai-dev-kit.git ~/ai-dev-kit
 ln -s ~/ai-dev-kit/skills/ai-dev-kit ~/.cursor/rules/ai-dev-kit
 ```
 
 **Any agent**
 
 ```bash
-git clone https://github.com/BenWeekes/ai-dev-kit.git
+git clone https://github.com/AgoraIO-Community/ai-dev-kit.git
 ```
 
 Point your agent at `skills/ai-dev-kit/SKILL.md` as the entry point.

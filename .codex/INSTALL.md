@@ -3,7 +3,7 @@
 ## Install
 
 ```bash
-git clone https://github.com/BenWeekes/ai-dev-kit.git
+git clone https://github.com/AgoraIO-Community/ai-dev-kit.git
 ```
 
 Point Codex at `skills/ai-dev-kit/SKILL.md` as the entry point.

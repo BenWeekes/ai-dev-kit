@@ -829,7 +829,7 @@ disclosure documentation under `docs/ai/`.
 ## The Standard
 
 Read the full standard before starting:
-https://github.com/BenWeekes/ai-dev-kit/blob/main/docs/progressive-disclosure-standard.md
+https://github.com/AgoraIO-Community/ai-dev-kit/blob/main/docs/progressive-disclosure-standard.md
 
 Key constraints to keep in mind:
 
@@ -968,7 +968,7 @@ Ask the engineer (or extract from context):
 ## The Standard
 
 Read the full standard before starting:
-https://github.com/BenWeekes/ai-dev-kit/blob/main/docs/progressive-disclosure-standard.md
+https://github.com/AgoraIO-Community/ai-dev-kit/blob/main/docs/progressive-disclosure-standard.md
 
 Key constraints for bootstrapping:
 
