@@ -1,4 +1,4 @@
-# ai-dev-kit
+# ai-devkit
 
 See @AGENTS.md for full conventions.
 

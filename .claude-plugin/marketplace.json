@@ -1,5 +1,5 @@
 {
-  "name": "ai-dev-kit",
+  "name": "ai-devkit",
   "owner": {
     "name": "AgoraIO-Community"
   },
@@ -8,7 +8,7 @@
   },
   "plugins": [
     {
-      "name": "ai-dev-kit",
+      "name": "ai-devkit",
       "source": "./",
       "description": "Git conventions and documentation generation for AI-assisted development",
       "version": "1.1.0"

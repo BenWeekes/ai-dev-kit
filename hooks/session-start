@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# SessionStart hook for ai-dev-kit plugin
-# Reads skills/ai-dev-kit/SKILL.md and injects it as session context
+# SessionStart hook for ai-devkit plugin
+# Reads skills/ai-devkit/SKILL.md and injects it as session context
 
 set -euo pipefail
 
@@ -9,7 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 # Read the main SKILL.md content
-skill_content=$(cat "${PLUGIN_ROOT}/skills/ai-dev-kit/SKILL.md" 2>&1 || echo "Error reading ai-dev-kit skill")
+skill_content=$(cat "${PLUGIN_ROOT}/skills/ai-devkit/SKILL.md" 2>&1 || echo "Error reading ai-devkit skill")
 
 # Escape string for JSON embedding using bash parameter substitution
 escape_for_json() {
@@ -23,7 +23,7 @@ escape_for_json() {
 }
 
 skill_escaped=$(escape_for_json "$skill_content")
-session_context="<IMPORTANT>\nYou have ai-dev-kit installed.\n\n**Below are the ai-dev-kit conventions and available skills. For detailed skill workflows, use the Skill tool:**\n\n${skill_escaped}\n</IMPORTANT>"
+session_context="<IMPORTANT>\nYou have ai-devkit installed.\n\n**Below are the ai-devkit conventions and available skills. For detailed skill workflows, use the Skill tool:**\n\n${skill_escaped}\n</IMPORTANT>"
 
 # Output context injection as JSON.
 # Cursor hooks expect additional_context.

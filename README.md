@@ -1,4 +1,4 @@
-# ai-dev-kit
+# ai-devkit
 
 A practical guide to developing software with AI coding tools. Includes an
 installable skill for git workflows and progressive disclosure documentation, a
@@ -20,7 +20,7 @@ with any agent — Claude Code, Cursor, Codex, Gemini.
 
 ## Overview
 
-The ai-dev-kit skill installs into your agent. At session start, a hook injects
+The ai-devkit skill installs into your agent. At session start, a hook injects
 git conventions (lowercase commits, no AI tool names, present tense) and
 registers skills for git workflows and progressive disclosure documentation. Git
 conventions are always active. Skills load on demand when you invoke them — say
@@ -34,14 +34,14 @@ conventions are always active. Skills load on demand when you invoke them — sa
 
 ```
 /plugin marketplace add AgoraIO-Community/ai-devkit
-/plugin install ai-dev-kit@ai-dev-kit
+/plugin install ai-devkit@ai-devkit
 ```
 
 **Cursor**
 
 ```bash
-git clone https://github.com/AgoraIO-Community/ai-devkit.git ~/ai-dev-kit
-ln -s ~/ai-dev-kit/skills/ai-dev-kit ~/.cursor/rules/ai-dev-kit
+git clone https://github.com/AgoraIO-Community/ai-devkit.git ~/ai-devkit
+ln -s ~/ai-devkit/skills/ai-devkit ~/.cursor/rules/ai-devkit
 ```
 
 **Any agent**
@@ -50,7 +50,7 @@ ln -s ~/ai-dev-kit/skills/ai-dev-kit ~/.cursor/rules/ai-dev-kit
 git clone https://github.com/AgoraIO-Community/ai-devkit.git
 ```
 
-Point your agent at `skills/ai-dev-kit/SKILL.md` as the entry point.
+Point your agent at `skills/ai-devkit/SKILL.md` as the entry point.
 
 ---
 
@@ -104,11 +104,11 @@ agent tiers, epic lifecycle, and cross-repo review patterns.
 ## Using with Superpowers
 
 [Superpowers](https://github.com/obra/superpowers) handles the development
-pipeline — spec, plan, build, test, review. ai-dev-kit ensures consistent git
+pipeline — spec, plan, build, test, review. ai-devkit ensures consistent git
 usage (clean commits, no AI tool advertising) and maintains useful progressive
 disclosure documentation. No overlap:
 
-| Concern         | ai-dev-kit             | Superpowers          |
+| Concern         | ai-devkit             | Superpowers          |
 | --------------- | ---------------------- | -------------------- |
 | Git conventions | ship, pr, sync         | —                    |
 | Documentation   | generate, update, test | —                    |
@@ -122,9 +122,9 @@ A typical workflow:
 2. plan — design the approach (Superpowers)
 3. tdd — implement with tests (Superpowers)
 4. review — review the changes (Superpowers)
-5. ship — commit and push (ai-dev-kit)
-6. pr — create a PR (ai-dev-kit)
-7. generate — update repo docs (ai-dev-kit)
+5. ship — commit and push (ai-devkit)
+6. pr — create a PR (ai-devkit)
+7. generate — update repo docs (ai-devkit)
 
 ## License
 

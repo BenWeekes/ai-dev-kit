@@ -1,15 +1,15 @@
 ---
-name: ai-dev-kit
+name: ai-devkit
 description: Git conventions and documentation generation for AI-assisted development. Enforces lowercase commits, no AI tool names, present tense. Use when committing, pushing, creating PRs, rebasing, or generating repo documentation.
 ---
 
-# ai-dev-kit
+# ai-devkit
 
 Git conventions and progressive disclosure documentation for AI-assisted development.
 
 ## Git Conventions (always active)
 
-These rules apply to every commit in repos that install ai-dev-kit:
+These rules apply to every commit in repos that install ai-devkit:
 
 - **Lowercase start** — commit messages begin with a lowercase letter
 - **No AI tool names** — never mention claude, cursor, copilot, cody, aider, gemini, codex, chatgpt, or gpt-3/4
@@ -26,9 +26,9 @@ Git workflow skills for committing, pushing, PRs, and rebasing. For detailed wor
 
 | Skill  | Description                                   | Workflow                                        |
 | ------ | --------------------------------------------- | ----------------------------------------------- |
-| `ship` | commit staged changes and push to remote      | Read `skills/ai-dev-kit/git/ship.md`            |
-| `pr`   | create a pull request from the current branch | Read `skills/ai-dev-kit/git/pr.md`              |
-| `sync` | rebase current branch onto latest main        | Read `skills/ai-dev-kit/git/sync.md`            |
+| `ship` | commit staged changes and push to remote      | Read `skills/ai-devkit/git/ship.md`            |
+| `pr`   | create a pull request from the current branch | Read `skills/ai-devkit/git/pr.md`              |
+| `sync` | rebase current branch onto latest main        | Read `skills/ai-devkit/git/sync.md`            |
 
 ### docs
 
@@ -36,6 +36,6 @@ Documentation generation following the progressive disclosure standard. For deta
 
 | Skill      | Description                                                 | Workflow                                        |
 | ---------- | ----------------------------------------------------------- | ----------------------------------------------- |
-| `generate` | generate L0/L1/L2 docs for the repo from scratch            | Read `skills/ai-dev-kit/docs/generate.md`       |
-| `update`   | update existing docs after code changes — only what changed | Read `skills/ai-dev-kit/docs/update.md`         |
-| `test`     | verify generated docs meet the standard                     | Read `skills/ai-dev-kit/docs/test.md`           |
+| `generate` | generate L0/L1/L2 docs for the repo from scratch            | Read `skills/ai-devkit/docs/generate.md`       |
+| `update`   | update existing docs after code changes — only what changed | Read `skills/ai-devkit/docs/update.md`         |
+| `test`     | verify generated docs meet the standard                     | Read `skills/ai-devkit/docs/test.md`           |

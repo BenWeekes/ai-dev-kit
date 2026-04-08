@@ -1,1 +1,1 @@
-@./skills/ai-dev-kit/SKILL.md
+@./skills/ai-devkit/SKILL.md

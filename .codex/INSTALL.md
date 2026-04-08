@@ -1,4 +1,4 @@
-# ai-dev-kit for Codex
+# ai-devkit for Codex
 
 ## Install
 
@@ -6,7 +6,7 @@
 git clone https://github.com/AgoraIO-Community/ai-devkit.git
 ```
 
-Point Codex at `skills/ai-dev-kit/SKILL.md` as the entry point.
+Point Codex at `skills/ai-devkit/SKILL.md` as the entry point.
 
 ## What it provides
 
@@ -16,6 +16,6 @@ Point Codex at `skills/ai-dev-kit/SKILL.md` as the entry point.
 
 ## Files
 
-- `skills/ai-dev-kit/SKILL.md` — main conventions and skill directory
-- `skills/ai-dev-kit/git/` — git workflow skills
-- `skills/ai-dev-kit/docs/` — documentation skills
+- `skills/ai-devkit/SKILL.md` — main conventions and skill directory
+- `skills/ai-devkit/git/` — git workflow skills
+- `skills/ai-devkit/docs/` — documentation skills

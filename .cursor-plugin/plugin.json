@@ -1,6 +1,6 @@
 {
-  "name": "ai-dev-kit",
-  "displayName": "ai-dev-kit",
+  "name": "ai-devkit",
+  "displayName": "ai-devkit",
   "description": "Git conventions and documentation generation for AI-assisted development",
   "version": "1.1.0",
   "author": {

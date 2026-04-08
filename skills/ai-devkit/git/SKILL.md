@@ -5,7 +5,7 @@ description: Git workflow skills — commit, push, PR, rebase. Use when the user
 
 # git
 
-Git workflow skills that enforce ai-dev-kit commit conventions.
+Git workflow skills that enforce ai-devkit commit conventions.
 
 ## Conventions
 
