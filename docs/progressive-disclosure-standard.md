@@ -524,12 +524,6 @@ agents work efficiently. Documentation is structured in three levels under
 - **L0 (Repo Card):** Identity and L1 index. Table of contents.
 - **L1 (Summaries):** Eight structured summaries. Load all at session start.
 - **L2 (Deep Dives):** Full specifications. Load only when L1 isn't detailed enough.
-
-## Installed Skills (optional)
-
-List any skills installed in this repo that inject ambient conventions:
-
-- **[skill-name]** — brief description of what it enforces or provides
 ```
 
 #### CLAUDE.md Template
@@ -545,7 +539,6 @@ Read @AGENTS.md for AI agent instructions and progressive disclosure docs.
 - **`AGENTS.md`** is the universal standard (Linux Foundation). All AI tools will look for it.
 - **`CLAUDE.md`** uses an `@` reference so Claude Code loads `AGENTS.md` into the system prompt automatically — no tool call needed.
 - **Other tools** (Cursor, Copilot, Cody, etc.) can all read `AGENTS.md`.
-- **Installed Skills** section surfaces ambient conventions (e.g., git rules from ai-devkit) so agents see them regardless of which tool loads the file.
 - **Future enterprise map:** A central system can scrape all `AGENTS.md` files to discover repos, then follow the link to each L0 for Identity Block metadata.
 
 ---

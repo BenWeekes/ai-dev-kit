@@ -61,7 +61,7 @@ Create files in this order:
 
 Also create or update:
 
-- `AGENTS.md` at repo root with loading instructions (use the template from section 4.7 of the standard). If the repo has installed skills that inject ambient conventions (e.g., ai-devkit for git rules), add the optional `## Installed Skills` section listing them.
+- `AGENTS.md` at repo root with loading instructions
 - `CLAUDE.md` at repo root referencing @AGENTS.md (add reference if file exists, create if not)
 
 ### 6. Verify
