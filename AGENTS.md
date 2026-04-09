@@ -28,6 +28,10 @@ ai-devkit provides git conventions and documentation generation as skills for AI
 3. **Test driven development.** Write the test first, verify it fails, implement, verify it passes.
 4. **Review before commit.** AI review checks spec compliance and code quality.
 
+## AGENTS.md as Primary Delivery
+
+The AGENTS.md template defined in [section 4.7 of the progressive disclosure standard](docs/progressive-disclosure-standard.md#47-agentsmd-and-claudemd-integration) is the primary way repos adopt git conventions and doc commands. Any repo that creates an AGENTS.md from that template gets conventions without installing ai-devkit as a plugin. The plugin (skills + hooks) is a convenience for tools that support it.
+
 ## Complementary Skills
 
 - [Superpowers](https://github.com/obra/superpowers) — spec, plan, TDD, review workflow

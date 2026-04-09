@@ -9,7 +9,7 @@ Git conventions and progressive disclosure documentation for AI-assisted develop
 
 ## Git Conventions (always active)
 
-These rules apply to every commit in repos that install ai-devkit:
+These rules apply to every commit. In repos that adopt the progressive disclosure standard, these same conventions are delivered via the AGENTS.md template (no plugin needed). The skill reinforces them for plugin users.
 
 - **Lowercase start** — commit messages begin with a lowercase letter
 - **No AI tool names** — never mention claude, cursor, copilot, cody, aider, gemini, codex, chatgpt, or gpt-3/4

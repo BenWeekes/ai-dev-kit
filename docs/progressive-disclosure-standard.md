@@ -505,40 +505,52 @@ Every repo should have an `AGENTS.md` at the root that serves as the **universal
 ```markdown
 # AI Agent Instructions
 
-This repository uses progressive disclosure documentation to help AI coding
-agents work efficiently. Documentation is structured in three levels under
-`docs/ai/`.
+This repository uses progressive disclosure documentation. Docs live under
+`docs/ai/` in three levels.
 
 ## How to Load
 
 1. Read [docs/ai/L0_repo_card.md](docs/ai/L0_repo_card.md) to identify the repo.
-2. Load ALL 8 files in `docs/ai/L1/`. They are small — load all of them upfront.
-   This gives you setup, architecture, code map, conventions, workflows,
-   interfaces, gotchas, and security.
-3. If a task needs more detail than L1 provides, follow links to L2 deep dives
-   in `docs/ai/L1/deep_dives/`. Load only the specific L2 file
-   you need.
+2. Load ALL 8 files in `docs/ai/L1/`. They are small — load all upfront.
+3. Follow L2 deep-dive links only when L1 isn't detailed enough.
 
-## Levels
+## Git Conventions
 
-- **L0 (Repo Card):** Identity and L1 index. Table of contents.
-- **L1 (Summaries):** Eight structured summaries. Load all at session start.
-- **L2 (Deep Dives):** Full specifications. Load only when L1 isn't detailed enough.
+- **Lowercase start** — commit messages begin with a lowercase letter
+- **No AI tool names** — never mention claude, cursor, copilot, cody, aider, gemini, codex, chatgpt, or gpt-3/4
+- **Present tense** — "add feature", not "added feature"
+- **No Co-Authored-By trailers** — omit AI attribution lines
+- **No --no-verify** — let git hooks run normally
+- **No git config changes** — do not modify user.name or user.email
+
+## Doc Commands
+
+| Command       | When to use                                   |
+| ------------- | --------------------------------------------- |
+| generate docs | no `docs/ai/` directory exists yet            |
+| update docs   | code changed since last `last_reviewed` date  |
+| test docs     | verify docs give agents the right context     |
+
+For detailed procedures, read
+[progressive-disclosure-standard.md](docs/progressive-disclosure-standard.md)
+sections 6 (generate) and 7 (bootstrap).
 ```
 
 #### CLAUDE.md Template
 
-Claude Code reads `CLAUDE.md` into the system prompt automatically. Use an `@` reference so Claude Code reads `AGENTS.md` at session start without an extra tool call:
+Claude Code reads `CLAUDE.md` into the system prompt automatically. Use an `@` reference so Claude Code reads `AGENTS.md` at session start — this gives the agent git conventions, doc commands, and doc loading instructions without an extra tool call:
 
 ```markdown
-Read @AGENTS.md for AI agent instructions and progressive disclosure docs.
+Read @AGENTS.md for AI agent instructions, git conventions, and progressive disclosure docs.
 ```
 
 #### Why This Pattern
 
 - **`AGENTS.md`** is the universal standard (Linux Foundation). All AI tools will look for it.
+- **Self-contained** — `AGENTS.md` delivers doc loading instructions, git conventions, and doc commands in one file. No plugin install required.
 - **`CLAUDE.md`** uses an `@` reference so Claude Code loads `AGENTS.md` into the system prompt automatically — no tool call needed.
 - **Other tools** (Cursor, Copilot, Cody, etc.) can all read `AGENTS.md`.
+- **Plugin optional** — tools like [ai-devkit](https://github.com/AgoraIO-Community/ai-devkit) can reinforce these conventions via skills and hooks, but `AGENTS.md` is the primary delivery mechanism.
 - **Future enterprise map:** A central system can scrape all `AGENTS.md` files to discover repos, then follow the link to each L0 for Identity Block metadata.
 
 ---
@@ -900,28 +912,20 @@ Create files one at a time in this order:
 
 ## Also create: AGENTS.md and CLAUDE.md
 
-Create `AGENTS.md` at the repo root (the universal AI entry point):
-
-```
-# AI Agent Instructions
-
-This repository uses progressive disclosure documentation.
-
-1. Read [docs/ai/L0_repo_card.md](docs/ai/L0_repo_card.md) to identify the repo.
-2. Load ALL 8 files in docs/ai/L1/.
-3. Follow L2 deep dive links only when L1 isn't detailed enough for your task.
-```
+Create `AGENTS.md` at the repo root using the expanded template from section 4.7
+of the progressive disclosure standard. It must include all three sections:
+**How to Load**, **Git Conventions**, and **Doc Commands**.
 
 If `CLAUDE.md` exists, add a line pointing to AGENTS.md:
 
 ```
-Read @AGENTS.md for AI agent instructions and progressive disclosure docs.
+Read @AGENTS.md for AI agent instructions, git conventions, and progressive disclosure docs.
 ```
 
 If `CLAUDE.md` does not exist, create it:
 
 ```
-Read @AGENTS.md for AI agent instructions and progressive disclosure docs.
+Read @AGENTS.md for AI agent instructions, git conventions, and progressive disclosure docs.
 ```
 
 ## Quality Checklist
@@ -1008,7 +1012,8 @@ Create files one at a time:
    All 8 must exist even if mostly TODOs.
 4. `docs/ai/L1/deep_dives/_index.md` — 3-5 anticipated topics,
    all marked "To be created." No content files.
-5. `AGENTS.md` at repo root — Instructs agents to load L0 then all L1.
+5. `AGENTS.md` at repo root — Use the expanded template from section 4.7
+   (How to Load, Git Conventions, Doc Commands).
 6. `CLAUDE.md` at repo root — References @AGENTS.md. If it already exists, add
    the @ reference rather than replacing existing content.
 
@@ -1020,7 +1025,7 @@ Create files one at a time:
 
 **L2:** \_index.md only. No content files created.
 
-**AGENTS.md:** Exists at repo root. Instructs: load L0, then all L1, then L2 only if needed.
+**AGENTS.md:** Exists at repo root. Has How to Load, Git Conventions, and Doc Commands sections.
 
 **CLAUDE.md:** Exists at repo root. References @AGENTS.md.
 ````

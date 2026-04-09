@@ -20,31 +20,45 @@ with any agent — Claude Code, Cursor, Codex, Gemini.
 
 ## Overview
 
-The ai-devkit skill installs into your agent. At session start, a hook injects
-git conventions (lowercase commits, no AI tool names, present tense) and
-registers skills for git workflows and progressive disclosure documentation. Git
-conventions are always active. Skills load on demand when you invoke them — say
-"ship it" for git, or "generate docs" for documentation.
+The primary way to adopt ai-devkit is through `AGENTS.md` — a single file at
+your repo root that gives any AI agent git conventions, doc commands, and doc
+loading instructions. No plugin install required. Just copy the template from
+the [progressive disclosure standard](docs/progressive-disclosure-standard.md#47-agentsmd-and-claudemd-integration)
+into your repo.
+
+For tools that support plugins (Claude Code, Cursor), installing ai-devkit adds
+skills and hooks as a convenience. At session start, a hook injects git
+conventions and registers skills for git workflows and progressive disclosure
+documentation. Skills load on demand when you invoke them — say "ship it" for
+git, or "generate docs" for documentation.
 
 ---
 
 ## Install
 
-**Claude Code**
+**No install needed** — copy the AGENTS.md template from
+[section 4.7](docs/progressive-disclosure-standard.md#47-agentsmd-and-claudemd-integration)
+into your repo root. Any AI agent that reads `AGENTS.md` gets git conventions
+and doc commands automatically.
+
+The plugin install below is optional — it adds skills (ship, pr, sync) and
+session-start hooks for tools that support them.
+
+**Claude Code** (optional plugin)
 
 ```
 /plugin marketplace add AgoraIO-Community/ai-devkit
 /plugin install ai-devkit@ai-devkit
 ```
 
-**Cursor**
+**Cursor** (optional plugin)
 
 ```bash
 git clone https://github.com/AgoraIO-Community/ai-devkit.git ~/ai-devkit
 ln -s ~/ai-devkit/skills/ai-devkit ~/.cursor/rules/ai-devkit
 ```
 
-**Any agent**
+**Any agent** (optional clone)
 
 ```bash
 git clone https://github.com/AgoraIO-Community/ai-devkit.git
